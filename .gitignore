@@ -1,19 +1,19 @@
-# Node modules (frontend)
-frontend/node_modules/
-
-# Python cache and virtual env
+# Python
 __pycache__/
-*.pyc
-*.pyo
 venv/
+*.pyc
 
-# Environment and config files
+# Node
+node_modules/
+npm-debug.log
+
+# Environment variables
 .env
-*.log
 
-# System files
-.DS_Store
-Thumbs.db
+# Docker
+.dockerignore
+Dockerfile-dev
 
-# Docker stuff (optional)
-*.pid
+# IDE
+.vscode/
+.idea/
