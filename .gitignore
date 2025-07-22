@@ -1,0 +1,19 @@
+# Node modules (frontend)
+frontend/node_modules/
+
+# Python cache and virtual env
+__pycache__/
+*.pyc
+*.pyo
+venv/
+
+# Environment and config files
+.env
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Docker stuff (optional)
+*.pid
