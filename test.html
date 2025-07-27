@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain DApp Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .error { color: #ff6b6b; }
+        .success { color: #51cf66; }
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        pre {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔗 Blockchain DApp Test</h1>
+    
+    <div class="container">
+        <h2>Backend Connection Test</h2>
+        <button onclick="testAPI()">Test API Connection</button>
+        <button onclick="getBlockchain()">Get Blockchain Data</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const result = document.getElementById('result');
+            result.innerHTML = '<p>Testing connection...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:3000/');
+                const data = await response.json();
+                result.innerHTML = `
+                    <div class="success">
+                        <h3>✅ Connection Successful!</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                result.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Connection Failed</h3>
+                        <p>Error: ${error.message}</p>
+                        <p>Make sure your Flask backend is running on http://localhost:3000</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function getBlockchain() {
+            const result = document.getElementById('result');
+            result.innerHTML = '<p>Fetching blockchain data...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:3000/blockchain');
+                const data = await response.json();
+                result.innerHTML = `
+                    <div class="success">
+                        <h3>✅ Blockchain Data Retrieved!</h3>
+                        <p><strong>Chain Length:</strong> ${data.chain_length}</p>
+                        <p><strong>Difficulty:</strong> ${data.difficulty}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                result.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Failed to Get Blockchain</h3>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Auto-test on page load
+        window.onload = function() {
+            testAPI();
+        };
+    </script>
+</body>
+</html>
