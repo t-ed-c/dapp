@@ -1,152 +1,91 @@
 import React, { useState, useEffect } from 'react';
+import ContractDeployer from './ContractDeployer.js';
+import ContractList from './ContractList.js';
 import './App.css';
 
 function App() {
   const [blockchainInfo, setBlockchainInfo] = useState(null);
-  const [blockchain, setBlockchain] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
   useEffect(() => {
-    // Fetch basic blockchain info
-    fetch('http://localhost:3000/')
-      .then(response => response.json())
-      .then(data => {
+    const fetchBlockchainInfo = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/');
+        const data = await response.json();
         setBlockchainInfo(data);
+      } catch (err) {
+        setError('Failed to fetch blockchain data');
+      } finally {
         setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching blockchain info:', error);
-        setError('Failed to connect to blockchain API');
-        setLoading(false);
-      });
-      
-    // Fetch full blockchain data
-    fetch('http://localhost:3000/blockchain')
-      .then(response => response.json())
-      .then(data => setBlockchain(data))
-      .catch(error => console.error('Error fetching blockchain:', error));
+      }
+    };
+    
+    fetchBlockchainInfo();
   }, []);
   
-  const refreshBlockchain = () => {
-    setLoading(true);
-    fetch('http://localhost:3000/blockchain')
-      .then(response => response.json())
-      .then(data => {
-        setBlockchain(data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error refreshing blockchain:', error);
-        setLoading(false);
+  const handleDeploy = async (code) => {
+    try {
+      const response = await fetch('http://localhost:3000/contracts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
       });
+      
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Deployment failed');
+      }
+      
+      alert(`Contract deployed at: ${data.address}`);
+      return data.address;
+    } catch (err) {
+      throw new Error(err.message || 'Contract deployment failed');
+    }
   };
-  
-  if (loading) {
-    return (
-      <div className="App">
-        <div className="loading">
-          <h2>Loading Blockchain DApp...</h2>
-          <div className="spinner"></div>
-        </div>
-      </div>
-    );
-  }
-  
-  if (error) {
-    return (
-      <div className="App">
-        <div className="error">
-          <h2>❌ Connection Error</h2>
-          <p>{error}</p>
-          <p>Make sure your Flask backend is running on http://localhost:3000</p>
-        </div>
-      </div>
-    );
-  }
   
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>🔗 Blockchain DApp</h1>
-        <p>Decentralized Application Frontend</p>
+      <header>
+        <h1>PyChain DApp</h1>
+        <p>Python-Powered Decentralized Application</p>
       </header>
       
-      <main className="App-main">
-        {blockchainInfo && (
-          <section className="info-section">
-            <h2>📊 Blockchain Status</h2>
-            <div className="info-grid">
-              <div className="info-card">
-                <h3>Name</h3>
-                <p>{blockchainInfo.name}</p>
-              </div>
-              <div className="info-card">
-                <h3>Version</h3>
-                <p>{blockchainInfo.version}</p>
-              </div>
-              <div className="info-card">
-                <h3>Status</h3>
-                <p className={`status ${blockchainInfo.status}`}>
-                  {blockchainInfo.status}
-                </p>
-              </div>
-              <div className="info-card">
-                <h3>Block Height</h3>
+      <main>
+        {error && <div className="error">{error}</div>}
+        
+        <section className="blockchain-status">
+          <h2>Blockchain Status</h2>
+          {loading ? (
+            <p>Loading blockchain data...</p>
+          ) : blockchainInfo ? (
+            <div className="status-cards">
+              <div className="card">
+                <h3>Blocks</h3>
                 <p>{blockchainInfo.block_height}</p>
               </div>
+              <div className="card">
+                <h3>Contracts</h3>
+                <p>{blockchainInfo.contracts}</p>
+              </div>
+              <div className="card">
+                <h3>Status</h3>
+                <p>{blockchainInfo.status}</p>
+              </div>
             </div>
-          </section>
-        )}
+          ) : (
+            <p>No blockchain data available</p>
+          )}
+        </section>
         
-        {blockchain && (
-          <section className="blockchain-section">
-            <div className="section-header">
-              <h2>⛓️ Blockchain Explorer</h2>
-              <button onClick={refreshBlockchain} className="refresh-btn">
-                🔄 Refresh
-              </button>
-            </div>
-            
-            <div className="blockchain-info">
-              <p><strong>Difficulty:</strong> {blockchain.difficulty}</p>
-              <p><strong>Chain Length:</strong> {blockchain.chain_length}</p>
-              <p><strong>Pending Transactions:</strong> {blockchain.pending_transactions?.length || 0}</p>
-            </div>
-            
-            <div className="blocks-container">
-              <h3>📦 Blocks</h3>
-              {blockchain.chain?.map((block, index) => (
-                <div key={block.index} className="block-card">
-                  <div className="block-header">
-                    <h4>Block #{block.index}</h4>
-                    <span className="block-hash">{block.hash?.substring(0, 16)}...</span>
-                  </div>
-                  <div className="block-details">
-                    <p><strong>Timestamp:</strong> {new Date(block.timestamp * 1000).toLocaleString()}</p>
-                    <p><strong>Previous Hash:</strong> {block.previous_hash?.substring(0, 32)}...</p>
-                    <p><strong>Nonce:</strong> {block.nonce}</p>
-                    <div className="transactions">
-                      <strong>Transactions:</strong>
-                      <ul>
-                        {Array.isArray(block.transactions) ? 
-                          block.transactions.map((tx, txIndex) => (
-                            <li key={txIndex}>{tx}</li>
-                          )) : 
-                          <li>{block.transactions}</li>
-                        }
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+        <section className="contract-section">
+          <ContractDeployer onDeploy={handleDeploy} />
+          <ContractList />
+        </section>
       </main>
       
-      <footer className="App-footer">
-        <p>🚀 Blockchain DApp - Built with React & Flask</p>
+      <footer>
+        <p>Day 2: Smart Contract Implementation</p>
       </footer>
     </div>
   );

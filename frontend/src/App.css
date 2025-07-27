@@ -4,56 +4,59 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
 }
 
-.App-header {
+/* Header Styles */
+header {
   padding: 2rem;
   background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
+  border-radius: 15px;
+  margin-bottom: 2rem;
 }
 
-.App-header h1 {
+header h1 {
   margin: 0;
   font-size: 3rem;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.App-header p {
+header p {
   margin: 0.5rem 0 0 0;
   font-size: 1.2rem;
   opacity: 0.9;
 }
 
-.App-main {
-  padding: 2rem;
+/* Main Content */
+main {
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.loading, .error {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
+/* Error Styles */
+.error {
+  background: rgba(220, 53, 69, 0.2);
+  border: 1px solid rgba(220, 53, 69, 0.5);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  color: #ff6b6b;
 }
 
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid rgba(255, 255, 255, 0.3);
-  border-top: 5px solid white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+.error-message {
+  background: rgba(220, 53, 69, 0.2);
+  border: 1px solid rgba(220, 53, 69, 0.5);
+  border-radius: 5px;
+  padding: 0.5rem;
+  margin: 1rem 0;
+  color: #ff6b6b;
+  font-size: 0.9rem;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.info-section {
+/* Blockchain Status Section */
+.blockchain-status {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 15px;
@@ -62,14 +65,19 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.info-grid {
+.blockchain-status h2 {
+  margin-top: 0;
+  color: #fbbf24;
+}
+
+.status-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
   margin-top: 1rem;
 }
 
-.info-card {
+.card {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 1.5rem;
@@ -77,11 +85,11 @@
   transition: transform 0.3s ease;
 }
 
-.info-card:hover {
+.card:hover {
   transform: translateY(-5px);
 }
 
-.info-card h3 {
+.card h3 {
   margin: 0 0 0.5rem 0;
   font-size: 1rem;
   opacity: 0.8;
@@ -89,169 +97,318 @@
   letter-spacing: 1px;
 }
 
-.info-card p {
+.card p {
   margin: 0;
   font-size: 1.5rem;
   font-weight: bold;
 }
 
-.status.running {
-  color: #4ade80;
+/* Contract Section */
+.contract-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 
-.blockchain-section {
+/* Contract Deployer */
+.contract-deployer {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 15px;
   padding: 2rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.section-header h2 {
-  margin: 0;
-}
-
-.refresh-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 25px;
-  padding: 0.7rem 1.5rem;
-  color: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: bold;
-}
-
-.refresh-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
-}
-
-.blockchain-info {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 2rem;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.blockchain-info p {
-  margin: 0;
-  font-weight: bold;
-}
-
-.blocks-container h3 {
-  margin-bottom: 1rem;
-  color: #fbbf24;
-}
-
-.block-card {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: transform 0.3s ease;
   text-align: left;
 }
 
-.block-card:hover {
-  transform: translateX(10px);
-  border-color: rgba(255, 255, 255, 0.3);
+.contract-deployer h3 {
+  margin-top: 0;
+  color: #60a5fa;
+  text-align: center;
 }
 
-.block-header {
+.sample-contracts {
+  margin-bottom: 1.5rem;
+}
+
+.sample-contracts h4 {
+  margin-bottom: 0.5rem;
+  color: #fbbf24;
+}
+
+.sample-buttons {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.block-header h4 {
-  margin: 0;
+.sample-buttons button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.sample-buttons button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.code-editor h4 {
+  margin-bottom: 0.5rem;
+  color: #fbbf24;
+}
+
+.code-editor textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  padding: 1rem;
+  color: white;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.code-editor textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.deploy-button {
+  background: rgba(34, 197, 94, 0.3);
+  border: 1px solid rgba(34, 197, 94, 0.5);
+  border-radius: 10px;
+  padding: 1rem 2rem;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.deploy-button:hover:not(:disabled) {
+  background: rgba(34, 197, 94, 0.5);
+  transform: translateY(-2px);
+}
+
+.deploy-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.deployment-info {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+.deployment-info h4 {
+  margin-top: 0;
   color: #60a5fa;
 }
 
-.block-hash {
-  font-family: 'Courier New', monospace;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 0.3rem 0.8rem;
-  border-radius: 15px;
-  font-size: 0.9rem;
-}
-
-.block-details p {
-  margin: 0.5rem 0;
-  font-size: 0.9rem;
-}
-
-.transactions {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.transactions ul {
-  margin: 0.5rem 0;
+.deployment-info ul {
+  text-align: left;
+  margin: 0;
   padding-left: 1.5rem;
 }
 
-.transactions li {
-  margin: 0.3rem 0;
-  background: rgba(34, 197, 94, 0.2);
-  padding: 0.5rem;
-  border-radius: 5px;
-  border-left: 3px solid #22c55e;
+.deployment-info li {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
 }
 
-.App-footer {
+.deployment-info code {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+}
+
+/* Contract List */
+.contract-list {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: left;
+}
+
+.contract-list h3 {
+  margin-top: 0;
+  color: #60a5fa;
+  text-align: center;
+}
+
+.refresh-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.refresh-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.contracts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.contracts-sidebar h4 {
+  color: #fbbf24;
+  margin-bottom: 0.5rem;
+}
+
+.contract-list-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contract-list-items li {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.contract-list-items li:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.contract-list-items li.selected {
+  background: rgba(96, 165, 250, 0.3);
+  border-color: rgba(96, 165, 250, 0.5);
+}
+
+.contract-item {
+  font-size: 0.9rem;
+}
+
+.contract-details h4 {
+  color: #fbbf24;
+  margin-bottom: 1rem;
+}
+
+.contract-state {
+  margin-bottom: 1rem;
+}
+
+.contract-state h5 {
+  color: #60a5fa;
+  margin-bottom: 0.5rem;
+}
+
+.contract-state pre {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 5px;
+  overflow-x: auto;
+  font-size: 0.8rem;
+}
+
+.function-executor h5 {
+  color: #60a5fa;
+  margin-bottom: 0.5rem;
+}
+
+.function-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.function-inputs input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  padding: 0.5rem;
+  color: white;
+}
+
+.function-inputs input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.function-inputs button {
+  background: rgba(34, 197, 94, 0.3);
+  border: 1px solid rgba(34, 197, 94, 0.5);
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.function-inputs button:hover {
+  background: rgba(34, 197, 94, 0.5);
+}
+
+.execution-result {
+  margin-top: 1rem;
+}
+
+.execution-result h5 {
+  color: #60a5fa;
+  margin-bottom: 0.5rem;
+}
+
+.execution-result pre {
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  padding: 1rem;
+  border-radius: 5px;
+  overflow-x: auto;
+  font-size: 0.8rem;
+}
+
+/* Footer */
+footer {
   background: rgba(0, 0, 0, 0.2);
   padding: 1rem;
   margin-top: 2rem;
   backdrop-filter: blur(5px);
+  border-radius: 15px;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .App-header h1 {
+  .App {
+    padding: 10px;
+  }
+  
+  header h1 {
     font-size: 2rem;
   }
   
-  .App-main {
-    padding: 1rem;
-  }
-  
-  .info-grid {
+  .contract-section {
     grid-template-columns: 1fr;
   }
   
-  .section-header {
-    flex-direction: column;
-    text-align: center;
+  .contracts-grid {
+    grid-template-columns: 1fr;
   }
   
-  .blockchain-info {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .block-header {
-    flex-direction: column;
-    gap: 0.5rem;
-    text-align: center;
+  .status-cards {
+    grid-template-columns: 1fr;
   }
 }
