@@ -122,10 +122,25 @@ def list_contracts():
         contracts.append({
             "address": address,
             "owner": details["owner"],
-            "balance": details["balance"]
+            "balance": details["balance"],
+            "code": details["code"]
         })
     
     return jsonify({"contracts": contracts}), 200
 
+@app.route('/transactions', methods=['POST'])
+def create_transaction():
+    data = request.json
+    if 'transaction' not in data:
+        return jsonify({"error": "Transaction data missing"}), 400
+    
+    # Add transaction to blockchain
+    bc.add_transaction(data['transaction'])
+    return jsonify({
+        "status": "success", 
+        "message": "Transaction added to pending pool",
+        "block": len(bc.chain)  # Will be included in next block
+    }), 201
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000, debug=True, use_reloader=False)
+    app.run(host='0.0.0.0', port=5001, debug=True, use_reloader=False)

@@ -102,6 +102,7 @@ __result = __contract_exec()
             contract = self.contracts.get(address)
             if contract:
                 return {
+                    "code": contract["code"],
                     "storage": contract["storage"],
                     "balance": contract["balance"],
                     "owner": contract["owner"]
